@@ -5,6 +5,7 @@
 #define WIDTH 900
 #define HEIGHT 600
 #define WHITE_COLOR 0xFFFFFFFF
+#define BLACK_COLOR 0x00000000
 #define A_GRAVITY 10
 
 struct Circle {
@@ -52,9 +53,8 @@ int main() {
   SDL_Surface *psurface = SDL_GetWindowSurface(pwindow);
 
   struct Circle circle = (struct Circle){200, 200, 50, 1, 1};
-  FillCircle(psurface, circle);
-  SDL_UpdateWindowSurface(pwindow);
 
+  SDL_Rect erase_rect = (SDL_Rect){0, 0, WIDTH, HEIGHT};
   SDL_Event event;
   int simulation = 1;
 
@@ -64,7 +64,10 @@ int main() {
         simulation = 0;
       }
     }
+    SDL_FillRect(psurface, &erase_rect, BLACK_COLOR);
+    FillCircle(psurface, circle);
+    step(&circle);
+    SDL_UpdateWindowSurface(pwindow);
+    SDL_Delay(100);
   }
-
-  SDL_Delay(3000);
 }
