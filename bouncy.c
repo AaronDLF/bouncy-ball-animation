@@ -69,12 +69,12 @@ int main() {
   printf("Hello, Bouncy World!\n");
 
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_Window *pwindow =
-      SDL_CreateWindow("Bouncy Ball Simulation", SDL_WINDOWPOS_CENTERED,
-                       SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
+  SDL_Window *pwindow = SDL_CreateWindow(
+      "Bouncy Ball Simulation", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+      WIDTH, HEIGHT, SDL_WINDOW_BORDERLESS);
   SDL_Surface *psurface = SDL_GetWindowSurface(pwindow);
 
-  struct Circle circle = (struct Circle){200, 200, 50, 1, 1};
+  struct Circle circle = (struct Circle){200, 200, 50, 5, 1};
 
   SDL_Rect erase_rect = (SDL_Rect){0, 0, WIDTH, HEIGHT};
   SDL_Event event;
@@ -84,6 +84,11 @@ int main() {
     while (SDL_PollEvent(&event)) {
       if (event.type == SDL_QUIT) {
         simulation = 0;
+      }
+      if (event.type == SDL_KEYDOWN) {
+        if (event.key.keysym.sym == SDLK_ESCAPE) {
+          simulation = 0;
+        }
       }
     }
     SDL_FillRect(psurface, &erase_rect, BLACK_COLOR);
